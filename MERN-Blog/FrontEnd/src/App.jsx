@@ -12,6 +12,9 @@ import EditPost from "./pages/EditPost";
 function App() {
   return (
     <>
+      <h1 style={{ textAlign: "center" }}>
+        Welcome to Full Stack MERN - "Blogz-App"
+      </h1>
       <UserContextProvider>
         <Routes>
           <Route path="/" element={<Layout />}>
