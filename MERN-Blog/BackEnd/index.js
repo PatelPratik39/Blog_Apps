@@ -4,8 +4,10 @@ const mongoose = require("mongoose");
 const User = require("./models/User.js");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
+
 const cookieParser = require("cookie-parser");
 const multer = require("multer");
+const dotenv = require("dotenv");
 // const uploadMiddleware = multer({ dest: "uploads/" });
 const uploadMiddleware = multer({
   dest: "uploads/",
@@ -13,6 +15,8 @@ const uploadMiddleware = multer({
     fieldSize: 10 * 1024 * 1024 
   }
 });
+
+
 
 const fs = require("fs");
 const Post = require("./models/Post.js");
@@ -23,13 +27,12 @@ const PORT = 4000;
 
 // bcrypt the password using salt
 const salt = bcrypt.genSaltSync(10);
-const secret = "JaiSwaminarayan";
 
+dotenv.config();
 // db Connection
-mongoose.connect(
-  "mongodb+srv://admin:admin@blogzzmern.ts2fnk7.mongodb.net/blogzzMERN?retryWrites=true&w=majority"
-);
+mongoose.connect(process.env.MONGO_URL);
 
+const JWT_SECRET = process.env.JWT_SECRET;
 // middlewares
 app.use(
   cors({
@@ -41,14 +44,6 @@ app.use(express.json());
 app.use(cookieParser());
 app.use(express.static("uploads"));
 app.use("/uploads", express.static(__dirname + "/uploads"));
-
-// const uploadMiddleware = multer({
-//   dest: "uploads/",
-//   limits: {
-//     fieldSize: 10 * 1024 * 1024 // Set the field size limit to 10MB (or adjust according to your requirements)
-//   }
-// });
-
 
 // register Logic
 app.post("/register", async (req, res) => {
@@ -75,7 +70,7 @@ app.post("/login", async (req, res) => {
   //   if user credentials are matched then i will generate jwt token
   if (passOk) {
     //logged In
-    jwt.sign({ username, id: userDoc._id }, secret, {}, (error, token) => {
+    jwt.sign({ username, id: userDoc._id }, JWT_SECRET, {}, (error, token) => {
       if (error) throw error;
       //   res.json(token);
       res.cookie("token", token).json({
@@ -93,7 +88,7 @@ app.post("/login", async (req, res) => {
 app.get("/profile", (req, res) => {
   // wrappup cookies, i need to get it using token from cookie, the verify it using jwt
   const { token } = req.cookies;
-  jwt.verify(token, secret, {}, (error, info) => {
+  jwt.verify(token, JWT_SECRET, {}, (error, info) => {
     if (error) throw error;
     res.json(info);
   });
@@ -116,7 +111,7 @@ app.post("/post", uploadMiddleware.single("file"), async (req, res) => {
   fs.renameSync(path, newPath);
 
   const { token } = req.cookies;
-  jwt.verify(token, secret, {}, async (err, info) => {
+  jwt.verify(token, JWT_SECRET, {}, async (err, info) => {
     if (err) throw err;
     const { title, summery, content } = req.body;
     const postDoc = await Post.create({
@@ -142,7 +137,7 @@ app.put("/post", uploadMiddleware.single("file"), async (req, res) => {
   }
 
   const { token } = req.cookies;
-  jwt.verify(token, secret, {}, async (err, info) => {
+  jwt.verify(token, JWT_SECRET, {}, async (err, info) => {
     if (err) throw err;
     const { id, title, summery, content } = req.body;
     const postDoc = await Post.findById(id);
