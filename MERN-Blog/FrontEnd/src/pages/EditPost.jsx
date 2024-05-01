@@ -19,7 +19,7 @@ export default function EditPost() {
       });
     });
   }, []);
-
+// updatePost Function
   async function updatePost(ev) {
     ev.preventDefault();
     const data = new FormData();
