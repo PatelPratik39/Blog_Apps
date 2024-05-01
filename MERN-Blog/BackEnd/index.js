@@ -4,7 +4,6 @@ const mongoose = require("mongoose");
 const User = require("./models/User.js");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
-
 const cookieParser = require("cookie-parser");
 const multer = require("multer");
 const dotenv = require("dotenv");
@@ -15,8 +14,6 @@ const uploadMiddleware = multer({
     fieldSize: 10 * 1024 * 1024 
   }
 });
-
-
 
 const fs = require("fs");
 const Post = require("./models/Post.js");
