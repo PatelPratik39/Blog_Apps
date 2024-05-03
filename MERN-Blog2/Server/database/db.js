@@ -1,12 +1,10 @@
-// mongodb+srv://admin:<password>@mernblogsapps.3zjgkbh.mongodb.net/?retryWrites=true&w=majority&appName=MERNBlogsAppS
 
-// mongodb+srv://admin:<password>@mernblogsapps.3zjgkbh.mongodb.net/
-
+require("dotenv").config();  //need to use this command to load environment variable
 const mongoose = require("mongoose");
 
 mongoose.Promise = global.Promise;
-const url =
-  'mongodb+srv://admin:admin@mernblogsapps.3zjgkbh.mongodb.net/?retryWrites=true&w=majority&appName=MERNBlogsAppS'
+const url = process.env.MongoDB_URL;
+  
 mongoose.connect(url);
 const db = mongoose.connection;
 db.on("connected", () => {
