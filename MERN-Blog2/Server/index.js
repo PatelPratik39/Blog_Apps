@@ -3,8 +3,9 @@ const path = require("path");
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 const cors = require("cors");
-const db = require("./database/db.js");
-// const postRouter = require("./Routes/post");
+const db = require("./database/db");
+const postRouter = require("./Routes/post");
+
 
 const app = express();
 
@@ -15,16 +16,13 @@ app.use(
   })
 );
 
-
 app.use(cors());
 const PORT = process.env.PORT || 3000;
 
-app.get("/test", (req, res) => {
-  res.send("Hello World!");
-});
-
-// app.use("/api/posts", postRouter);
+app.use("/", postRouter);
+app.use(':/id',postRouter);
+app.use("/api/posts", postRouter);
 
 app.listen(PORT, () => {
-  console.log(`app is listening to PORT ${PORT}`);
+  console.log(`App is listening to PORT ${PORT}`);
 });

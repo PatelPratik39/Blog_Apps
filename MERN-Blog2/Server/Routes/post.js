@@ -6,9 +6,23 @@ const router = new express.Router();
 
 // Create Post
 
-router.post("", (req, res, next) => {
+router.post("", async (req, res, next) => {
+  if (!req.body || !req.body.title || !req.body.content || !req.body.author) {
+    return res.status(400).json({ message: "Invalid request body" });
+  }
+  //   lets check if a post with same title, and content exist or not?
+  const existPost = await Post.findOne({
+    $or: [{ title: req.body.title }, { content: req.body.content }]
+  });
+  if (existPost)
+    return res
+      .status(400)
+      .json({
+        message: "What are you doing man!!!, Post is already Exist... "
+      });
+
   const post = new Post({
-    title: req.bosy.title,
+    title: req.body.title,
     content: req.body.content,
     author: req.body.author
   });
@@ -32,48 +46,91 @@ router.post("", (req, res, next) => {
 
 // GET Post (READ operation)
 
-router.get("/mypost", (req, res, next) => {
-  Post.find({ creator: req.userData.userId })
-    .then((post) => {
-      if (post) {
-        res.status(200).json({
-          message: "Post Fetched Successfully",
-          posts: post
-        });
-      }
+// router.get("/mypost", (req, res, next) => {
+//   Post.find({ creator: req.userData.userId })
+//     .then((post) => {
+//       if (post) {
+//         res.status(200).json({
+//           message: "Post Fetched Successfully",
+//           posts: post
+//         });
+//       }
+//     })
+//     .catch((error) => {
+//       console.error("Error fetching posts:", error);
+//       res.status(500).json({ message: "Internal server error" });
+//     });
+// });
+
+// without middleware set up  i can fetch my post like below:
+router.get("/", (req, res, next) => {
+  Post.find()
+    .then((posts) => {
+      res.status(200).json({
+        message: "Posts Fetched Successfully",
+        posts: posts
+      });
     })
     .catch((error) => {
-      console.log(error);
+      console.error("Error fetching posts:", error);
+      res.status(500).json({ message: "Internal server error" });
+    });
+});
+
+// get by id
+router.get("/:id", (req, res, next) => {
+  const postId = req.params.id;
+  Post.findById(postId)
+    .then((posts) => {
+      res.status(200).json({
+        message: "Posts Fetched Successfully",
+        posts: posts
+      });
+    })
+    .catch((error) => {
+      console.error("Error fetching posts:", error);
+      res.status(500).json({ message: "Internal server error" });
     });
 });
 
 // Update Post
 
 router.put("/:id", (req, res, next) => {
-  const post = new Post({
-    _id: req.body.id,
-    title: req.bosy.title,
-    content: req.body.content
-  });
-  Post.updateOne({ _id: req.params.id }, post).then((result) => {
-    if (result) {
-      res.status(200).json({ message: "Update successful!" });
-    } else {
-      res.status(500).json({ message: "Error Upating Post" });
-    }
-  });
+  const postId = req.params.id;
+  const updatedPostData = {
+    title: req.body.title,
+    content: req.body.content,
+    author: req.body.author
+  };
+  Post.findByIdAndUpdate(postId, updatedPostData, { new: true })
+    .then((updatedPost) => {
+      if (updatedPost)
+        return res
+          .status(200)
+          .json({ message: "Update successful", post: updatedPost });
+      else return res.status(404).json({ message: "Page Not found" });
+    })
+    .catch((error) => {
+      console.error("Error updating post:", error);
+      res.status(500).json({ message: "Internal server error" });
+    });
 });
 
 //  Delete Post
-router.delete("/:id", (req, res, next) => {
-  Post.deleteOne({ _id: req.params.id, creator: req.params.userId }).then(
-    (result) => {
-      console.log(result);
-      if (result.n > 0) {
-        res.status(200).json({ message: "Delete successful!!" });
-      } else {
-        return res.status(401).json({ message: "Not Authorized!!!" });
-      }
-    }
-  );
+router.delete("/:id", async (req, res, next) => {
+  try {
+    const postId = req.params.id;
+
+    const existingPost = await Post.findById(postId);
+    if (!existingPost)
+      return res.status(404).json({ message: "Post not found" });
+    const removePost = await Post.deleteOne({ _id: postId });
+    console.log(removePost);
+    res.status(200).json({ message: "Delete successful" });
+  } catch (error) {
+    console.error("Error deleting post:", error);
+    res.status(500).json({ message: "Internal server error" });
+  }
 });
+
+module.exports = router;
