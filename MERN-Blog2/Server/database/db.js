@@ -7,23 +7,18 @@ const mongoose = require("mongoose");
 mongoose.Promise = global.Promise;
 const url =
   "mongodb+srv://admin:admin@mernblogsapps.3zjgkbh.mongodb.net/?retryWrites=true&w=majority&appName=MERNBlogsAppS";
-
-let mongo_DB = mongoose.connect(url, {
-  useNewUrlParser: true,
-  useCreateIndex: true,
-  useUnifiedTopology: true
-});
-
-mongo_DB.on("connected", () => {
+mongoose.connect(url);
+const db = mongoose.connection;
+db.on("connected", () => {
   console.log("MongoDB Connection Successful !!");
 });
 
-mongo_DB.on("error", () => {
+db.on("error", (error) => {
   console.error("MongoDB connection error: ", error);
 });
 
-mongo_DB.on("disconnected", () => {
+db.on("disconnected", () => {
   console.log("Disconnected from MongoDB");
 });
 
-module.exports = mongo_DB;
+module.exports = db;
