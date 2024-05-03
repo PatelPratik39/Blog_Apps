@@ -9,8 +9,8 @@
 
 # First create Backedn Server folder
 
-    *  ``` npm init -y
-    *  ``` npm install --save body-parser cors express mongoose
+    *  ```npm init -y
+    *  ```npm install --save body-parser cors express mongoose
 
 # body-parser:
 
