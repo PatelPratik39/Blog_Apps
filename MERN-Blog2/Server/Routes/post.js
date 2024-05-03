@@ -64,7 +64,7 @@ router.post("", async (req, res, next) => {
 
 // without middleware set up  i can fetch my post like below:
 router.get("/", (req, res, next) => {
-  Post.find().maxTimeMS(20000)
+  Post.find()
     .then((posts) => {
       res.status(200).json({
         message: "Posts Fetched Successfully",
