@@ -15,11 +15,9 @@ router.post("", async (req, res, next) => {
     $or: [{ title: req.body.title }, { content: req.body.content }]
   });
   if (existPost)
-    return res
-      .status(400)
-      .json({
-        message: "What are you doing man!!!, Post is already Exist... "
-      });
+    return res.status(400).json({
+      message: "What are you doing man!!!, Post is already Exist... "
+    });
 
   const post = new Post({
     title: req.body.title,
@@ -65,6 +63,7 @@ router.post("", async (req, res, next) => {
 // without middleware set up  i can fetch my post like below:
 router.get("/", (req, res, next) => {
   Post.find()
+    .timeout(50000)
     .then((posts) => {
       res.status(200).json({
         message: "Posts Fetched Successfully",

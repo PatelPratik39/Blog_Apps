@@ -5,7 +5,12 @@ const mongoose = require("mongoose");
 mongoose.Promise = global.Promise;
 const url = process.env.MongoDB_URL;
   
-mongoose.connect(url);
+mongoose.connect(url, {
+  bufferCommands: false, // Disable buffering
+  useNewUrlParser: true,
+  useUnifiedTopology: true
+  // Other options...
+});
 const db = mongoose.connection;
 db.on("connected", () => {
   console.log("MongoDB Connection Successful !!");
