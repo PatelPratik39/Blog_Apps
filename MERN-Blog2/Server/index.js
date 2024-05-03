@@ -1,7 +1,7 @@
 const express = require("express");
 const path = require("path");
 const mongoose = require("mongoose");
-const db = require("db");
+// const db = require("db");
 const postRouter = require("./Routes/post");
 
 const app = express();
@@ -21,3 +21,5 @@ app.use("/api/posts", postRouter);
 app.listen(PORT, () => {
   console.log(`app is listening to PORT ${PORT}`);
 });
+
+
