@@ -2,7 +2,7 @@
 require("dotenv").config();  //need to use this command to load environment variable
 const mongoose = require("mongoose");
 
-mongoose.Promise = global.Promise;
+// mongoose.Promise = global.Promise;
 const url = process.env.MongoDB_URL;
   
 mongoose.connect(url, {
