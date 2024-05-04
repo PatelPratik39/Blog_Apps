@@ -21,7 +21,7 @@ app.use(cors());
 const PORT = process.env.PORT || 3000;
 
 app.use("/", postRouter);
-app.use(":/id", postRouter);
+app.use("/:id", postRouter);
 app.use("/api/posts", postRouter);
 
 app.listen(PORT, () => {
