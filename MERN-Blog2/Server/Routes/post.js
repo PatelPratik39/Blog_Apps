@@ -61,19 +61,28 @@ router.post("", async (req, res, next) => {
 // });
 
 // without middleware set up  i can fetch my post like below:
-router.get("/", (req, res, next) => {
-  Post.find()
-    .timeout(50000)
-    .then((posts) => {
-      res.status(200).json({
-        message: "Posts Fetched Successfully",
-        posts: posts
-      });
-    })
-    .catch((error) => {
-      console.error("Error fetching posts:", error);
-      res.status(500).json({ message: "Internal server error" });
+router.get("/", async (req, res, next) => {
+  try {
+    const posts = await Post.find();
+    res.status(200).json({
+      message: "Posts Fetched Successfully",
+      posts: posts
     });
+  } catch (error) {
+    console.error("Error fetching posts:", error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+});
+
+// GET all posts
+router.get("/api/posts", async (req, res, next) => {
+  try {
+    const posts = await Post.find();
+    res.status(200).json(posts);
+  } catch (error) {
+    console.error("Error fetching posts:", error);
+    res.status(500).json({ message: "Internal server error" });
+  }
 });
 
 // get by id
