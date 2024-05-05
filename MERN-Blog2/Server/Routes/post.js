@@ -6,17 +6,17 @@ const router = new express.Router();
 
 // Create Post
 
-router.post("", async (req, res, next) => {
+router.post("/api/posts", async (req, res, next) => {
   if (!req.body || !req.body.title || !req.body.content || !req.body.author) {
     return res.status(400).json({ message: "Invalid request body" });
   }
   //   lets check if a post with same title, and content exist or not?
-  const existPost = await Post.findOne({
+  const postExist = await Post.findOne({
     $or: [{ title: req.body.title }, { content: req.body.content }]
   });
-  if (existPost)
+  if (postExist)
     return res.status(400).json({
-      message: "What are you doing man!!!, Post is already Exist... "
+      message: "What are you doing Buddy!!!, Post is already Exist...!! "
     });
 
   const post = new Post({
@@ -86,20 +86,25 @@ router.get("/api/posts", async (req, res, next) => {
 });
 
 // get by id
-router.get("/:id", (req, res, next) => {
-  const postId = req.params.id;
-  Post.findById(postId)
-    .then((posts) => {
-      res.status(200).json({
-        message: "Posts Fetched Successfully",
-        posts: posts
-      });
-    })
-    .catch((error) => {
-      console.error("Error fetching posts:", error);
-      res.status(500).json({ message: "Internal server error" });
+router.get("/:id", async (req, res, next) => {
+  try {
+    const postId = req.params.id;
+
+    const post = await Post.findById(postId);
+    if (!post) {
+      return res.status(404).json({ message: "Post not found" });
+    }
+
+    res.status(200).json({
+      message: "Post Fetched Successfully",
+      post: post
     });
+  } catch (error) {
+    console.error("Error fetching post:", error);
+    res.status(500).json({ message: "Internal server error" });
+  }
 });
+
 
 // Update Post
 

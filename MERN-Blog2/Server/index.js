@@ -22,7 +22,7 @@ const PORT = process.env.PORT || 3000;
 
 app.use("/", postRouter);
 // app.use("/:id", postRouter);
-app.use("api/posts", postRouter);
+app.use("/api/posts", postRouter);
 // Error handling middleware
 app.use((err, req, res, next) => {
   console.error(err.stack);
