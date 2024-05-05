@@ -1,7 +1,7 @@
 const express = require("express");
-const path = require("path");
+// const path = require("path");
 const bodyParser = require("body-parser");
-const mongoose = require("mongoose");
+// const mongoose = require("mongoose");
 const cors = require("cors");
 const db = require("./database/db");
 const postRouter = require("./Routes/post");
@@ -21,7 +21,7 @@ app.use(cors());
 const PORT = process.env.PORT || 3000;
 
 app.use("/", postRouter);
-app.use("/:id", postRouter);
+// app.use("/:id", postRouter);
 app.use("api/posts", postRouter);
 // Error handling middleware
 app.use((err, req, res, next) => {

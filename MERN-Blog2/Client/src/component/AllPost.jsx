@@ -16,12 +16,12 @@ const AllPost = () => {
     getAllPosts();
   }, []);
 
-  return(
+  return (
     <div>
       <h1>All posts</h1>
-      <ul>
+      <ul style={{ listStyleType: "none" }}>
         {posts.map((post) => (
-          <li key={post._id} >
+          <li key={post._id}>
             <h2>{post.title}</h2>
             <p>{post.content}</p>
             <p>Author: {post.author}</p>
