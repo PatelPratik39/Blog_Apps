@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { fetchAllPost } from "../API/index.js";
+import { fetchAllPost } from "../../API/index.js";
+import PostCard from "./PostCard.jsx";
 
 const AllPost = () => {
   const [posts, setPosts] = useState([]);
@@ -19,7 +20,8 @@ const AllPost = () => {
   return (
     <div>
       <h1>All posts</h1>
-      <ul style={{ listStyleType: "none" }}>
+      <PostCard />
+      {/* <ul style={{ listStyleType: "none" }}>
         {posts.map((post) => (
           <li key={post._id}>
             <h2>{post.title}</h2>
@@ -28,7 +30,7 @@ const AllPost = () => {
             <p>Created At: {new Date(post.createdAt).toLocaleString()}</p>
           </li>
         ))}
-      </ul>
+      </ul> */}
     </div>
   );
 };

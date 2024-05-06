@@ -14,4 +14,3 @@ export const fetchAllPost = async () => {
 };
 
 
-// whfb-qsdx-hmnc-vuts-imyg
