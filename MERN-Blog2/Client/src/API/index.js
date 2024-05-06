@@ -1,6 +1,7 @@
 import axios from "axios";
 
-const API_URL = "http://localhost:3001/";
+// const API_URL = "http://localhost:3001/";
+const API_URL = "https://blog-apps-g2kf.onrender.com/";
 
 export const fetchAllPost = async () => {
   try {
@@ -11,3 +12,6 @@ export const fetchAllPost = async () => {
     throw error;
   }
 };
+
+
+// whfb-qsdx-hmnc-vuts-imyg
