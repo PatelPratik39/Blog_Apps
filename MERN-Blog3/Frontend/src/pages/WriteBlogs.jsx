@@ -1,9 +1,12 @@
-import React from 'react'
+import React from "react";
+import WriteAndUpdateBlogs from "../components/WriteBlogs/WriteAndUpdateBlogs";
 
-const WriteBlogs = () => {
+const WriteBlogs = ({ title }) => {
   return (
-    <div>WriteBlogs</div>
-  )
-}
+    <div>
+      <WriteAndUpdateBlogs titleName={title} />
+    </div>
+  );
+};
 
-export default WriteBlogs
+export default WriteBlogs;

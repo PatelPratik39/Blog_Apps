@@ -28,6 +28,7 @@ router.post("/post", async (req, res) => {
   }
 });
 // GET
+// router.get("/getAll", async (req, res) => {
 router.get("/", async (req, res) => {
   try {
     const data = await blogs.find().sort({ createdAt: -1 });

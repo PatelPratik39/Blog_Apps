@@ -16,7 +16,11 @@ function App() {
           <Route exact path="/" element={<Home />} />
           <Route path="/blogs" element={<Blogs />} />
           <Route path="/blogsPage/:id" element={<BlogsPage />} />
-          <Route path="/writeBlogs" element={<WriteBlogs />} />
+          <Route path="/writeBlogs" element={<WriteBlogs title={"Write"} />} />
+          <Route
+            path="/updateBlog/:id"
+            element={<WriteBlogs title={"Update"} />}
+          />
         </Routes>
       </BrowserRouter>
     </>

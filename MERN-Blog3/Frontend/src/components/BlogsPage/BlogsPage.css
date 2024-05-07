@@ -1,4 +1,14 @@
 .blogsPagep{
     font-size: 1.3rem;
-    
+    text-align: justify;
+}
+
+.editIcon{
+    color: purple;
+    font-size: 2rem;
+    transition: all 0.5s;
+}
+.editIcon:hover{
+    color: red;
+    cursor: pointer;
 }

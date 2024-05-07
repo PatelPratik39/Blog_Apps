@@ -9,7 +9,8 @@ const Page2 = () => {
     const fetch = async () => {
       try {
         await axios
-          .get("http://localhost:3001/api/v1/recentBlogs/")
+          // .get("http://localhost:3001/api/v1/recentBlogs/")
+          .get("https://blog-apps-1-n51a.onrender.com/api/v1/recentBlogs")
           .then((res) => {
             // console.log(res.data);
             setBlogs(res.data.data);
