@@ -1,14 +1,15 @@
 import React from "react";
 import "./Navbar.css";
+import { Link } from "react-router-dom";
 
 const NavBar = () => {
   return (
     <>
       <nav className="navbar navbar-expand-lg bg-body-tertiary">
         <div className="container">
-          <a className="navbar-brand" href="#">
+          <Link className="navbar-brand" to="#">
             <b>Blogzz</b>
-          </a>
+          </Link>
           <button
             className="navbar-toggler"
             type="button"
@@ -23,14 +24,19 @@ const NavBar = () => {
           <div className="collapse navbar-collapse" id="navbarSupportedContent">
             <ul className="navbar-nav ms-auto mb-2 mb-lg-0">
               <li className="nav-item">
-                <a className="nav-link active" aria-current="page" href="#">
+                <Link className="nav-link active" aria-current="page" to="/">
                   Home
-                </a>
+                </Link>
               </li>
               <li className="nav-item">
-                <a className="nav-link" href="#">
-                  Link
-                </a>
+                <Link className="nav-link" to="/blogs">
+                  Blogs
+                </Link>
+              </li>
+              <li className="nav-item">
+                <Link className="nav-link" to="/writeBlogs">
+                  Write Blogs
+                </Link>
               </li>
             </ul>
           </div>

@@ -1,12 +1,24 @@
 import React from "react";
-import NavBar from './components/Navbar/NavBar';
+import "../App.css";
+import NavBar from "../src/components/Navbar/NavBar";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import Home from "./pages/Home";
+import WriteBlogs from "./pages/WriteBlogs";
+import Blogs from "./pages/Blogs";
+import BlogsPage from "./components/BlogsPage/BlogsPage";
 
 function App() {
   return (
     <>
-      <div>
+      <BrowserRouter>
         <NavBar />
-      </div>
+        <Routes>
+          <Route exact path="/" element={<Home />} />
+          <Route path="/blogs" element={<Blogs />} />
+          <Route path="/blogsPage/:id" element={<BlogsPage />} />
+          <Route path="/writeBlogs" element={<WriteBlogs />} />
+        </Routes>
+      </BrowserRouter>
     </>
   );
 }
